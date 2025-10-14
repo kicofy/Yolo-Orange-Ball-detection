@@ -1,6 +1,4 @@
-path: "C:/Users/Ha22y/OneDrive/Desktop/AI Ball/yolo-data"
-train: images/train
-val: images/val
+train: "images/"
+val: "images/"
 names:
   0: ball
-

@@ -13,8 +13,8 @@ def main() -> None:
 	# Train (optimized for accuracy)
 	results = model.train(
 		data=str(data_yaml),
-		epochs=300,
-		imgsz=640,
+		epochs=10000,
+		imgsz=960,
 		batch=8,
 		patience=100,
 		single_cls=True,
