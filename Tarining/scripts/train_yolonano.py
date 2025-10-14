@@ -23,7 +23,7 @@ def main() -> None:
 		cos_lr=True,
 		multi_scale=True,
 		cache=True,
-		device="0",
+		device="mps",
 		workers=0,
 		project=str(project_root / "runs"),
 		name="yolo-nano-ball-optim",

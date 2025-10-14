@@ -1,6 +1,4 @@
-path: "C:/Users/Ha22y/OneDrive/Desktop/AI Ball/yolo-data"
-train: images/train
-val: images/val
+train: "/Users/harryjoce/Documents/Py Project/Yolo-Orange-Ball-detection/Tarining/yolo-data/images"
+val: "/Users/harryjoce/Documents/Py Project/Yolo-Orange-Ball-detection/Tarining/yolo-data/images"
 names:
   0: ball
-
