@@ -26,23 +26,29 @@ def main() -> None:
 		return
 
 	prev_t = time.time()
-	while True:
-		ok, frame = cap.read()
-		if not ok:
-			break
-		res = model.predict(source=frame, imgsz=args.imgsz, conf=args.conf, device=args.device, verbose=False)
-		plot = res[0].plot()
-		now = time.time()
-		fps = 1.0 / max(1e-3, now - prev_t)
-		prev_t = now
-		cv2.putText(plot, f"FPS: {fps:.1f}", (10, 30), cv2.FONT_HERSHEY_SIMPLEX, 1.0, (0, 255, 0), 2, cv2.LINE_AA)
-		cv2.imshow("Webcam Detect", plot)
-		key = cv2.waitKey(1) & 0xFF
-		if key in (27, ord("q")):
-			break
-
-	cap.release()
-	cv2.destroyAllWindows()
+	try:
+		while True:
+			ok, frame = cap.read()
+			if not ok:
+				break
+			res = model.predict(source=frame, imgsz=args.imgsz, conf=args.conf, device=args.device, verbose=False)
+			plot = res[0].plot()
+			now = time.time()
+			fps = 1.0 / max(1e-3, now - prev_t)
+			prev_t = now
+			cv2.putText(plot, f"FPS: {fps:.1f}", (10, 30), cv2.FONT_HERSHEY_SIMPLEX, 1.0, (0, 255, 0), 2, cv2.LINE_AA)
+			cv2.imshow("Webcam Detect", plot)
+			# Handle window close button (user clicks the X). When closed, visibility < 1.
+			if cv2.getWindowProperty("Webcam Detect", cv2.WND_PROP_VISIBLE) < 1:
+				break
+			key = cv2.waitKey(1) & 0xFF
+			if key in (27, ord("q")):
+				break
+	finally:
+		cap.release()
+		cv2.destroyAllWindows()
+		# Small wait to allow the window to actually close on some backends (e.g., macOS)
+		cv2.waitKey(1)
 
 
 if __name__ == "__main__":
