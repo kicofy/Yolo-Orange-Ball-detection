@@ -1,0 +1,6 @@
+path: "C:/Users/Ha22y/OneDrive/Desktop/AI Ball/yolo-data"
+train: images/train
+val: images/val
+names:
+  0: ball
+
