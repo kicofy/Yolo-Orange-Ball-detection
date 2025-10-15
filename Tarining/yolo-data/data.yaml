@@ -1,4 +1,9 @@
+<<<<<<< HEAD
 train: "images/"
 val: "images/"
+=======
+train: "/Users/harryjoce/Documents/Py Project/Yolo-Orange-Ball-detection/Tarining/yolo-data/images"
+val: "/Users/harryjoce/Documents/Py Project/Yolo-Orange-Ball-detection/Tarining/yolo-data/images"
+>>>>>>> origin/main
 names:
   0: ball
