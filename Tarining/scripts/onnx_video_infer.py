@@ -18,6 +18,7 @@ class InferenceConfig:
 	providers: List[str]
 	threads: int
 	debug: bool
+	no_display: bool
 
 
 def parse_args() -> argparse.Namespace:
@@ -31,6 +32,7 @@ def parse_args() -> argparse.Namespace:
 	parser.add_argument("--providers", type=str, nargs="*", default=["CPUExecutionProvider"], help="ONNX Runtime providers")
 	parser.add_argument("--threads", type=int, default=4, help="Intra-op threads for ORT")
 	parser.add_argument("--debug", action="store_true", help="Show extra diagnostics overlays")
+	parser.add_argument("--no-display", action="store_true", help="Run headless: no OpenCV rendering, print FPS only")
 	return parser.parse_args()
 
 
@@ -180,6 +182,7 @@ def main() -> None:
 		providers=args.providers,
 		threads=args.threads,
 		debug=bool(args.debug),
+		no_display=bool(args.no_display),
 	)
 
 	sess = prepare_session(cfg)
@@ -195,6 +198,7 @@ def main() -> None:
 		return
 
 	prev = time.time()
+	last_log = 0.0
 	while True:
 		ok, frame = cap.read()
 		if not ok:
@@ -227,14 +231,22 @@ def main() -> None:
 			y2 = np.maximum(boxes[:, 1], boxes[:, 3])
 			boxes = np.stack([x1, y1, x2, y2], axis=1)
 
-		# Draw
-		for (x1, y1, x2, y2), s, c in zip(boxes.astype(int), scores_f, cls_ids_f):
-			cv2.rectangle(frame, (x1, y1), (x2, y2), (0, 255, 0), 2)
-			cv2.putText(frame, f"ball {s:.2f}", (x1, max(0, y1 - 6)), cv2.FONT_HERSHEY_SIMPLEX, 0.6, (0, 255, 0), 2)
+		# Draw (skip in no-display mode)
+		if not cfg.no_display:
+			for (x1, y1, x2, y2), s, c in zip(boxes.astype(int), scores_f, cls_ids_f):
+				cv2.rectangle(frame, (x1, y1), (x2, y2), (0, 255, 0), 2)
+				cv2.putText(frame, f"ball {s:.2f}", (x1, max(0, y1 - 6)), cv2.FONT_HERSHEY_SIMPLEX, 0.6, (0, 255, 0), 2)
 
 		now = time.time()
 		fps = 1.0 / max(1e-3, now - prev)
 		prev = now
+		if cfg.no_display:
+			# Headless mode: print FPS and det count once per second
+			if (now - last_log) >= 1.0:
+				print(f"FPS {fps:.1f} | det {pre_n}->{post_n}")
+				last_log = now
+			continue
+
 		cv2.putText(frame, f"FPS: {fps:.1f}", (10, 30), cv2.FONT_HERSHEY_SIMPLEX, 1.0, (0, 255, 0), 2, cv2.LINE_AA)
 		cv2.putText(frame, f"Det: {pre_n}->{post_n}", (10, 60), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 255, 255), 2, cv2.LINE_AA)
 		if boxes.size > 0:
