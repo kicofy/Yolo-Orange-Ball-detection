@@ -8,13 +8,13 @@ def main() -> None:
 	data_yaml = project_root / "yolo-data" / "data.yaml"
 
 	# Use a stronger base model for best accuracy on small dataset
-	model = YOLO("yolov8s.pt")
+	model = YOLO("yolov8n.pt")
 
 	# Train (optimized for accuracy)
 	results = model.train(
 		data=str(data_yaml),
 		epochs=10000,
-		imgsz=960,
+		imgsz=640,
 		batch=8,
 		patience=100,
 		single_cls=True,
@@ -23,7 +23,7 @@ def main() -> None:
 		cos_lr=True,
 		multi_scale=True,
 		cache=True,
-		device="mps",
+		device= "0",
 		workers=0,
 		project=str(project_root / "runs"),
 		name="yolo-nano-ball-optim",
