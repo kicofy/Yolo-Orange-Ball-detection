@@ -9,7 +9,7 @@ from ultralytics import YOLO
 def parse_args() -> argparse.Namespace:
 	project_root = Path(__file__).resolve().parent.parent
 	parser = argparse.ArgumentParser(description="Webcam detection using trained YOLO model")
-	parser.add_argument("--weights", type=str, default=str(project_root / "runs" / "yolo-nano-ball-optim6" / "weights" / "best.pt"))
+	parser.add_argument("--weights", type=str, default=str(project_root / "runs" / "yolo-nano-ball-optim" / "weights" / "best.pt"))
 	parser.add_argument("--cam", type=int, default=0, help="Webcam index")
 	parser.add_argument("--imgsz", type=int, default=640)
 	parser.add_argument("--conf", type=float, default=0.25, help="Confidence threshold (minimum enforced at 0.25)")
