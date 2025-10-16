@@ -8,7 +8,7 @@ from ultralytics import YOLO
 
 def parse_args() -> argparse.Namespace:
 	project_root = Path(__file__).resolve().parent
-	default_weights = project_root.parent / "runs" / "yolo-nano-ball-optim10" / "weights" / "best.pt"
+	default_weights = project_root.parent / "runs" / "yolo-nano-ball-optim" / "weights" / "best.pt"
 	default_source = project_root.parent / "Dataset" / "video" / "06e36a63e4befd4c8ecace67178b66ca.mp4"
 	parser = argparse.ArgumentParser(description="Run YOLO detection on a video and display with OpenCV")
 	parser.add_argument("--source", type=str, default=str(default_source), help="Path to input video file")
