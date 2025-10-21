@@ -48,7 +48,16 @@ def main() -> None:
 		verbose=True,
 	)
 	if args.gray:
-		train_kwargs.update(dict(hsv_h=0.0, hsv_s=0.0))
+		# Stable settings for grayscale small dataset
+		train_kwargs.update(
+			dict(
+				hsv_h=0.0,
+				hsv_s=0.0,
+				multi_scale=False,
+				lr0=0.001,
+				amp=False,
+			)
+		)
 
 	results = model.train(**train_kwargs)
 	print(results)
