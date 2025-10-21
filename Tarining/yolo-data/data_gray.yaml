@@ -1,0 +1,4 @@
+train: "/Users/harryjoce/Documents/Py Project/Yolo-Orange-Ball-detection/Tarining/yolo-data-gray/images"
+val: "/Users/harryjoce/Documents/Py Project/Yolo-Orange-Ball-detection/Tarining/yolo-data-gray/images"
+names:
+  0: ball

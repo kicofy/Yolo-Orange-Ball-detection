@@ -1,4 +1,5 @@
-train: "images/"
-val: "images/"
-names:
-  0: ball
+# Auto-generated YOLO dataset config
+nc: 1
+names: ['Ball']
+train: /Users/harryjoce/Documents/Py Project/Yolo Labeler/exports/export_1e0c3e792e9b44b9aeaf6f88754c17ae/images
+val: /Users/harryjoce/Documents/Py Project/Yolo Labeler/exports/export_1e0c3e792e9b44b9aeaf6f88754c17ae/images
